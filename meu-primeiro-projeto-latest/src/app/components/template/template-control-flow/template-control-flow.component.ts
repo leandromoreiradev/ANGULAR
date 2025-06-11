@@ -5,7 +5,7 @@ import { delay, Observable, of } from 'rxjs';
 @Component({
   selector: 'app-template-control-flow',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule], //No lugar usar commnonModule para usar ngIf, ngFor, etc. podemos importar os módulos específicos como NgIf, NgFor, etc.
   templateUrl: './template-control-flow.component.html',
   styleUrl: './template-control-flow.component.scss'
 })
