@@ -1,0 +1,64 @@
+<!--
+on - especifica uma condição de acionador usando um acionador da lista.
+(idle, timer, viewport, interaction, hover, immediate, prefetch)
+
+when - especifica uma condição imperativa como uma expressão que retorna 
+um booleano. Quando esta expressão se torna verdadeira, o espaço reservado 
+é trocado pelo conteúdo carregado lentamente (o que pode ser uma operação 
+assíncrona se as dependências precisarem ser buscadas).
+
+Nota: Vários on triggers são sempre condições OR. Da mesma forma, on misturado 
+com when também são condições OR.
+
+idle - especifica um acionador de ocioso que aciona quando o navegador está ocioso.
+
+// Comaçam com ON os acionadores de eventos a seguir:
+
+timer(5s) - especifica um acionador de temporizador que aciona após 5 segundos.
+
+viewport - especifica um acionador de viewport que aciona quando o elemento
+está na área visível do viewport.
+
+interaction - especifica um acionador de interação que aciona quando o usuário interage
+com o elemento.
+
+interaction(trigger) - especifica um acionador de interação que aciona quando o usuário
+interage com o elemento de referência.
+
+hover - especifica um acionador de hover que aciona quando o mouse passa sobre o elemento.
+
+immediate - especifica um acionador imediato que aciona imediatamente.
+
+prefetch - especifica um acionador de pré-busca que aciona quando o elemento é pré-carregado.
+
+//FIM ACIONADORES
+
+@defer - especifica que o conteúdo deve ser carregado lentamente.
+
+@placeholder - especifica o conteúdo de espaço reservado que deve ser exibido
+interações >>> minimum
+
+@loading - especifica o conteúdo de carregamento que deve ser exibido enquanto o
+carregamento lento está em andamento.
+
+@error - especifica o conteúdo de erro que deve ser exibido se o carregamento lento falhar.
+
+
+-->
+
+
+<!-- <h2 style="margin-bottom: 5000px;">Deferrable Views</h2> -->
+<h2 #trigger>Deferrable views</h2>
+<button (click)="isTrue = true">Add ture</button>
+
+<h1>Deferrable views</h1>
+
+@defer(when isTrue) {
+    <app-new-component/>
+} @placeholder () {
+    <p>Mostrar antes de carregar algo</p>
+} @loading () {
+    <p>Carregando...</p>
+} @error {
+    <p>Erro ao carregar</p>
+}

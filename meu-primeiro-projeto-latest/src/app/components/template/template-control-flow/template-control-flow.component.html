@@ -1,0 +1,160 @@
+<h2>Control Flow</h2>
+<h3>IF</h3>
+
+
+<!--If Forma nova-->
+@if (isTrue) {
+    <p>1 é igual a 1</p>
+
+} @else if (1 > 0 ){
+    <p>1 é maior que 0</p>
+}
+@else {
+    <p>1 é diferente de 1</p>
+}
+
+
+<!--If Forma antiga-->
+<ng-container *ngIf="isTrue; else isFalse">
+    <p>Dener</p>
+    <p>Maria</p>
+</ng-container>
+<ng-template #isFalse>
+    <p>Não é verdadeiro</p>
+</ng-template>
+
+
+<h3>IF, FOR</h3>
+
+<!--Com Observable Forma nova-->
+@if(loadingData$ | async; as data) {
+   <u>
+    @for (item of data; track item) {
+        <li>{{ item }}</li>
+    }
+   </u>
+} @else {
+    <p>Loading...</p>
+}
+
+<!-- 
+1- track serve para identificar o item que mudou, e não renderizar todos os itens novamente, ele evita o re-render de toda a lista
+Acontece assim, quando o item é alterado, o Angular verifica se o item já existe na lista, se existir ele não renderiza novamente, apenas atualiza o valor do item que mudou. e  o resto dos itens permanecem os mesmos, evitando o re-render de toda a lista.
+2 - loadingData$ é um Observable que retorna uma lista de dados, e o async pipe se inscreve automaticamente nesse Observable e atualiza a view quando os dados muda, sem necessidade de usar subscribe manualmente no componente TS
+3 - Se usa o $ no final do nome da variável para indicar que é um Observable, isso é uma convenção comum em Angular, mas não é obrigatório.
+ -->
+@for (item of loadingData$ | async; track item) {
+    <li>{{ item }}</li>
+}
+
+
+<!--Com Observable Forma antiga-->
+<ng-container *ngIf="loadingData$ | async as data; else loading">
+<ul>
+    <!--trackBy não é obrigatorio-->
+    <ng-container *ngFor="let item of data; trackBy: trackByFn">
+        <li>{{ item }}</li>
+    </ng-container>
+</ul>
+</ng-container>
+<ng-template #loading>
+    <p>Loading...</p>
+</ng-template>
+
+
+<!--Elementos for Forma nova-->
+
+@for(item of itens; track item.name;
+let i = $index;
+let c = $count; 
+let f = $first;
+let l = $last;
+let e = $even;
+let o = $odd;
+
+) {
+    <li>{{ item.name }}</li>
+    <p>Index: {{ i }}</p>
+    <p>Count: {{ c }}</p>
+    <p>First: {{ f }}</p>
+    <p>Last: {{ l }}</p>
+    <p>Even: {{ e }}</p>
+    <p>Odd: {{ o }}</p>
+}
+
+<hr/>
+
+<!--Elementos for Forma antiga-->
+
+<ng-container *ngFor="
+let item of itens; 
+let i = index; 
+let c = count; 
+let f = first; 
+let l = last; 
+let e = even; 
+let o = odd;
+trackBy: trackByFn;
+"
+>
+    <li>{{ item.name }}</li>
+    <p>Index: {{ i }}</p>
+    <p>Count: {{ c }}</p>
+    <p>First: {{ f }}</p>
+    <p>Last: {{ l }}</p>
+    <p>Even: {{ e }}</p>
+    <p>Odd: {{ o }}</p>
+</ng-container>
+
+<!--usando template Reference Variable -->
+<!-- Aqui o #name é uma variável de referência de template, que permite acessar o valor do input diretamente no HTML da seguinte forma: name.value e assim adicionar o valor do input na lista de itens. -->
+<input #name type="text"/>
+<button (click)="addNewName(name.value)">Add Name</button>
+
+
+<!--For empty forma nova-->
+<ul>
+    @for (item of itens; track item.name) {
+        <li>{{ item.name }}</li>
+    }@empty {
+        <p>Lista vazia</p>
+    }
+</ul>
+
+
+<!--Forma antiga-->
+<ul>
+    <ng-container *ngIf="itens.length === 0; else itensExist">
+        <li>Não contem valores</li>
+    </ng-container>
+    <ng-template #itensExist>
+        <ng-container *ngFor="let item of itens; trackBy: trackByFn">
+            <li>{{ item.name }}</li>
+        </ng-container>
+    </ng-template>
+</ul>    
+
+
+<h3>IF, FOR, SWITCH CASE</h3>
+
+<!--Switch Case Forma nova-->
+@switch (switchCondition) {
+    @case ('A'){
+        <p>Sim sua letra é: A</p>
+    } @case ('B'){
+        <p>Sim sua letra é: B</p>
+    } @case ('C'){
+        <p>Sim sua letra é: C</p>
+    } @default {
+        <p>Não é nenhuma das letras</p>
+    }
+
+}
+<!--Switch Case Forma antiga--> 
+
+<ng-container [ngSwitch]="switchCondition">
+    <ng-container *ngSwitchCase="'A'">Sim sua letra é: A</ng-container>
+    <ng-container *ngSwitchCase="'B'">Sim sua letra é: B</ng-container>
+    <ng-container *ngSwitchCase="'C'">Sim sua letra é: C</ng-container>
+    <ng-container *ngSwitchDefault>Não é nenhuma das letras</ng-container>
+</ng-container>

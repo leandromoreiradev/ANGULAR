@@ -1,0 +1,86 @@
+<h2>Template</h2>
+
+<h3>Text interpolation</h3>
+<p>{{name}} - {{age}} - {{sum(1,2)}}</p>
+<p>{{ age > 1 ? true:false}} </p>
+
+<hr/>
+
+<h2>Property binding</h2>
+<button [disabled]="isDisabled">Button</button>
+<img [src]="srcValue" [alt]="name">
+
+<hr>
+
+<h2>Attribuite binding</h2>
+<p [title]="name2">Dener Torquatte</p>
+
+<h2>Class and Style binding</h2>
+<p [class.background-red]="age > 32"  [class.background-blue]="age < 32">{{ name }}</p>
+
+<h2>Event binding</h2>
+<p>{{age}}</p>
+<button (click)="sum2()">Somar</button>
+
+<button (click)="sub()">Subtrair</button>
+<input (keydown.shift.t)="onKeyDown($event)">
+
+<div style="background: red; width: 300px; height: 300px; margin-top: 10px;"
+(mousemove)="onMouseMove($event)"
+></div>
+
+<hr>
+
+<h2>Two way binding</h2>
+<input [(ngModel)]="name">
+<p>{{ name }}</p>
+
+
+<h2>Diretivas Estruturais</h2>
+<!--Modo antes do controle de fluxo-->
+
+<!--ngIF-->
+<!--Aqui se a condição NÂO for verdadeira ele chama #elseBlock (pode ser qualquer nome que tenha o #na frente que o identifique como variavel de referencia)
+caso a condição for verdadeira ele mostra o <p>Idade maior que 32</p> -->
+<div *ngIf="age > 32; else elseBlock">
+    <p>Idade maior que 32</p>
+</div>
+<ng-template #elseBlock>
+    <p>Idade menor ou igual a 32</p>
+</ng-template>
+
+
+<!--Aqui se a condição for verdadeira ele vai mostrar o elemento div com o conteudo "Olá mundo", se for falso não mostra nada-->
+<div *ngIf="mostrarMensagem">Olá!</div>
+
+
+<!--ngFor-->
+<!--Aqui para cada item da lista items ele cria um elemento <li> com o valor do item via interpotaltion {{variavel aqui}}-->
+<ul>
+    <li *ngFor="let item of items">{{ item }}</li>
+</ul>
+
+
+<!--ngSwitch-->
+<!--Aqui ele verifica o valor da variavel age, se for 32 ou 33 ele mostra o conteudo do <p> correspondente, caso não seja nenhum dos dois ele mostra o conteudo do <p> do ngSwitchDefault-->
+<div [ngSwitch]="age">  
+    <p *ngSwitchCase="32">Idade é 32</p>
+    <p *ngSwitchCase="33">Idade é 33</p>
+    <p *ngSwitchDefault>Idade não é 32 nem 33</p>
+</div>
+
+
+
+
+
+
+<h2>Diretivas de  atributos</h2>
+<div [ngClass]="{'background-red': true}">Classes condicionais</div>
+
+<div [ngStyle]="{
+    color: age > 32 ? 'red' : 'black',
+    fontSize: age > 32 ? '40px' : '20px',
+    backgroundColor: 'yellow',
+}">Estilo dinamico</div>
+
+
